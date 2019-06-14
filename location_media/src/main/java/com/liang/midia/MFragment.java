@@ -25,6 +25,21 @@ public class MFragment extends Fragment {
         }
     }
 
+    public static void injectIfNeededIn(Fragment fragment, LoaderCollection loaderCollection) {
+        if (sLoaderCollection != null) {
+            sLoaderCollection.onDestroy();
+            sLoaderCollection = null;
+        }
+        sLoaderCollection = loaderCollection;
+        FragmentManager manager = fragment.getChildFragmentManager();
+        Fragment tag = manager.findFragmentByTag(FRAGMENT_TAG);
+        if (tag == null) {
+            tag = new MFragment();
+            manager.beginTransaction().add(tag, FRAGMENT_TAG).commit();
+            manager.executePendingTransactions();
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

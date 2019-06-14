@@ -155,7 +155,7 @@ public enum MediaType {
 
     @Override
     public String toString() {
-        return mMimeTypeName + "/" + mExtensions.toArray()[0];
+        return mMimeTypeName;
     }
 
 }

@@ -4,6 +4,6 @@ import com.liang.bean.MediaFolder;
 
 import java.util.List;
 
-public interface OnFolderLoaderCallback {
-    void onLoadFolder(List<MediaFolder> folders);
+public interface OnFolderLoaderCallback<Folder extends MediaFolder> {
+    void onLoadFolder(List<Folder> folders);
 }

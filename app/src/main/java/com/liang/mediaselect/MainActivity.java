@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getAudios(View view) {
-        MediaManager.getFolder(this, new OnFolderLoaderCallback() {
+        MediaManager.getFolder(this, new OnFolderLoaderCallback<MediaFolder>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onLoadFolder(List<MediaFolder> folders) {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getVideos(View view) {
-        MediaManager.getMedia(this, MediaType.ofVideo(), new OnMediaLoaderCallback() {
+        MediaManager.getMedia(this, MediaType.ofVideo(), new OnMediaLoaderCallback<MediaInfo>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onLoadMedia(List<MediaInfo> medias) {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getImages(View view) {
-        MediaManager.getMedia(this, MediaType.ofImage(), new OnMediaLoaderCallback() {
+        MediaManager.getMedia(this, MediaType.ofImage(), new OnMediaLoaderCallback<MediaInfo>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onLoadMedia(List<MediaInfo> medias) {
