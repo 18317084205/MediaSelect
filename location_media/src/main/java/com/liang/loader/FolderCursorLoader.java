@@ -2,14 +2,11 @@
 package com.liang.loader;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.database.MergeCursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
 
-import com.liang.midia.MediaType;
+import com.liang.media.MediaType;
 
 import java.util.Set;
 

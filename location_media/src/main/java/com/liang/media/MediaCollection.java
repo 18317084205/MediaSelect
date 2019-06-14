@@ -1,4 +1,4 @@
-package com.liang.midia;
+package com.liang.media;
 
 import android.content.Context;
 import android.database.Cursor;

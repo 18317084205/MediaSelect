@@ -9,10 +9,10 @@ import android.view.View;
 
 import com.liang.bean.MediaFolder;
 import com.liang.bean.MediaInfo;
-import com.liang.midia.MediaManager;
-import com.liang.midia.MediaType;
-import com.liang.midia.listener.OnFolderLoaderCallback;
-import com.liang.midia.listener.OnMediaLoaderCallback;
+import com.liang.media.MediaManager;
+import com.liang.media.MediaType;
+import com.liang.media.listener.OnFolderLoaderCallback;
+import com.liang.media.listener.OnMediaLoaderCallback;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getAudios(View view) {
-        MediaManager.getFolder(this, new OnFolderLoaderCallback<MediaFolder>() {
+        MediaManager.getFolder(this, new OnFolderLoaderCallback() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onLoadFolder(List<MediaFolder> folders) {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getVideos(View view) {
-        MediaManager.getMedia(this, MediaType.ofVideo(), new OnMediaLoaderCallback<MediaInfo>() {
+        MediaManager.getMedia(this, MediaType.ofVideo(), new OnMediaLoaderCallback() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onLoadMedia(List<MediaInfo> medias) {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getImages(View view) {
-        MediaManager.getMedia(this, MediaType.ofImage(), new OnMediaLoaderCallback<MediaInfo>() {
+        MediaManager.getMedia(this, MediaType.ofImage(), new OnMediaLoaderCallback() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onLoadMedia(List<MediaInfo> medias) {

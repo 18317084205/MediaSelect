@@ -1,4 +1,4 @@
-package com.liang.midia;
+package com.liang.media;
 
 
 import android.support.v4.app.Fragment;

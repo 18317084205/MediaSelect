@@ -6,7 +6,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.CursorLoader;
 
-import com.liang.midia.MediaType;
+import com.liang.media.MediaType;
 
 import java.util.Set;
 
