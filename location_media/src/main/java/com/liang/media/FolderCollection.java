@@ -7,15 +7,22 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.Loader;
 
+import com.liang.bean.MediaFolder;
 import com.liang.loader.FolderCursorLoader;
+import com.liang.media.listener.OnFolderLoaderCallback;
+import com.liang.media.listener.OnLoaderCallback;
 
+import java.util.List;
 import java.util.Set;
 
 
 public class FolderCollection extends LoaderCollection {
 
-    public FolderCollection(FragmentActivity activity, Set<MediaType> mimeType, LoaderCallbacks callbacks) {
+    private OnFolderLoaderCallback folderLoaderCallback;
+
+    public FolderCollection(FragmentActivity activity, Set<MediaType> mimeType, OnLoaderCallback callbacks, OnFolderLoaderCallback folderLoaderCallback) {
         super(activity, mimeType, callbacks);
+        this.folderLoaderCallback = folderLoaderCallback;
     }
 
     @Override
@@ -33,7 +40,14 @@ public class FolderCollection extends LoaderCollection {
         if (context == null) {
             return;
         }
-        mCallbacks.onLoadFinished(data);
+
+        if (mCallbacks != null) {
+            mCallbacks.onLoadFinished(data);
+        }
+
+        if (folderLoaderCallback != null) {
+            mExecutorService.execute(new Task(data));
+        }
     }
 
     @Override
@@ -50,4 +64,25 @@ public class FolderCollection extends LoaderCollection {
         return 1;
     }
 
+    private class Task implements Runnable {
+
+        private Cursor cursor;
+
+        public Task(Cursor cursor) {
+            this.cursor = cursor;
+        }
+
+        @Override
+        public void run() {
+            final List<MediaFolder> mediaFolderList = MediaFolder.ofList(cursor);
+            if (folderLoaderCallback != null) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        folderLoaderCallback.onLoadFolder(mediaFolderList);
+                    }
+                });
+            }
+        }
+    }
 }

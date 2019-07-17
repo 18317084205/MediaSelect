@@ -20,6 +20,7 @@ public class MediaCursorLoader extends CursorLoader {
             MediaStore.MediaColumns._ID,
             MediaStore.MediaColumns.DISPLAY_NAME,
             MediaStore.MediaColumns.MIME_TYPE,
+            MediaStore.Images.Media.DATA,
             MediaStore.MediaColumns.SIZE,
             MediaStore.Audio.Media.DURATION
     };

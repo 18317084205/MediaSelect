@@ -15,14 +15,7 @@ public class FolderCursorLoader extends CursorLoader {
     public static final String COLUMN_COUNT = "count";
     public static final String ALL_FOLDER_ID = String.valueOf(-1);
     private static final Uri QUERY_URI = MediaStore.Files.getContentUri("external");
-    private static final String BUCKET_ORDER_BY = MediaStore.MediaColumns.DATE_ADDED + " DESC";
-
-    private static final String[] COLUMNS = {
-            MediaStore.Files.FileColumns._ID,
-            MediaStore.Images.Media.BUCKET_ID,
-            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.MediaColumns.DATA,
-            COLUMN_COUNT};
+    private static final String BUCKET_ORDER_BY = "datetaken DESC";
 
     private static final String[] PROJECTION = {
             MediaStore.Files.FileColumns._ID,

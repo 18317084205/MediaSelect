@@ -8,8 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.Loader;
 
+import com.liang.bean.MediaInfo;
 import com.liang.loader.MediaCursorLoader;
+import com.liang.media.listener.OnLoaderCallback;
+import com.liang.media.listener.OnMediaLoaderCallback;
 
+import java.util.List;
 import java.util.Set;
 
 public class MediaCollection extends LoaderCollection {
@@ -17,9 +21,11 @@ public class MediaCollection extends LoaderCollection {
     private static final int LOADER_ID = 2;
     public static final String ALL_FOLDER_ID = String.valueOf(-1);
     private static final String FOLDER_ID = "folder_id";
+    private OnMediaLoaderCallback mediaLoaderCallback;
 
-    public MediaCollection(FragmentActivity activity, Set<MediaType> mimeType, LoaderCallbacks callbacks) {
+    public MediaCollection(FragmentActivity activity, Set<MediaType> mimeType, OnLoaderCallback callbacks, OnMediaLoaderCallback mediaLoaderCallback) {
         super(activity, mimeType, callbacks);
+        this.mediaLoaderCallback = mediaLoaderCallback;
     }
 
     public void load(String folderId) {
@@ -42,10 +48,16 @@ public class MediaCollection extends LoaderCollection {
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
         Context context = mContext.get();
-        if (context == null || cursor == null || mCallbacks == null) {
+        if (context == null || cursor == null) {
             return;
         }
-        mCallbacks.onLoadFinished(cursor);
+        if (mCallbacks != null) {
+            mCallbacks.onLoadFinished(cursor);
+        }
+
+        if (mediaLoaderCallback != null) {
+            mExecutorService.execute(new Task(cursor));
+        }
     }
 
     @Override
@@ -55,5 +67,27 @@ public class MediaCollection extends LoaderCollection {
     @Override
     protected int setLoaderId() {
         return LOADER_ID;
+    }
+
+    private class Task implements Runnable {
+
+        private Cursor cursor;
+
+        public Task(Cursor cursor) {
+            this.cursor = cursor;
+        }
+
+        @Override
+        public void run() {
+            final List<MediaInfo> mediaInfoList = MediaInfo.ofList(cursor);
+            if (mediaLoaderCallback != null) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mediaLoaderCallback.onLoadMedia(mediaInfoList);
+                    }
+                });
+            }
+        }
     }
 }

@@ -79,25 +79,7 @@ public class MediaManager {
     }
 
     private static MediaCollection getMediaCollection(Set<MediaType> mimeTypes, final OnMediaLoaderCallback mediaLoaderCallback, final OnLoaderCallback loaderCallback, FragmentActivity activity) {
-        return new MediaCollection(activity, mimeTypes, new LoaderCollection.LoaderCallbacks() {
-            @Override
-            public void onLoadFinished(Cursor cursor) {
-
-                if (loaderCallback != null && isDataValid(cursor)) {
-                    loaderCallback.onLoadFinished(cursor);
-                }
-
-                if (mediaLoaderCallback != null && isDataValid(cursor)) {
-                    List<MediaInfo> medias = new ArrayList<>();
-                    if (cursor.moveToFirst()) {
-                        do {
-                            medias.add(new MediaInfo(cursor));
-                        } while (cursor.moveToNext());
-                    }
-                    mediaLoaderCallback.onLoadMedia(medias);
-                }
-            }
-        });
+        return new MediaCollection(activity, mimeTypes, loaderCallback, mediaLoaderCallback);
     }
 
 
@@ -147,25 +129,7 @@ public class MediaManager {
     }
 
     private static FolderCollection getFolderCollection(Set<MediaType> mimeTypes, final OnFolderLoaderCallback folderLoaderCallback, final OnLoaderCallback loaderCallback, FragmentActivity activity) {
-        return new FolderCollection(activity, mimeTypes, new LoaderCollection.LoaderCallbacks() {
-            @Override
-            public void onLoadFinished(Cursor cursor) {
-
-                if (loaderCallback != null && isDataValid(cursor)) {
-                    loaderCallback.onLoadFinished(cursor);
-                }
-
-                if (folderLoaderCallback != null && isDataValid(cursor)) {
-                    List<MediaFolder> medias = new ArrayList<>();
-                    if (cursor.moveToFirst()) {
-                        do {
-                            medias.add(new MediaFolder(cursor));
-                        } while (cursor.moveToNext());
-                    }
-                    folderLoaderCallback.onLoadFolder(medias);
-                }
-            }
-        });
+        return new FolderCollection(activity, mimeTypes, loaderCallback, folderLoaderCallback);
     }
 
     private static boolean isDataValid(Cursor cursor) {

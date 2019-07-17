@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 folders.forEach(new Consumer<MediaFolder>() {
                     @Override
                     public void accept(MediaFolder mediaFolder) {
-                        Log.e("MainActivity", "mediaFolder: " + mediaFolder.name);
+                        Log.e("MainActivity", "mediaFolder: " + mediaFolder.path);
                     }
                 });
             }
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 medias.forEach(new Consumer<MediaInfo>() {
                     @Override
                     public void accept(MediaInfo mediaInfo) {
-                        Log.e("MainActivity", "mediaInfo: " + mediaInfo.name);
+                        Log.e("MainActivity", "mediaInfo: " + mediaInfo.path);
                     }
                 });
             }
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 medias.forEach(new Consumer<MediaInfo>() {
                     @Override
                     public void accept(MediaInfo mediaInfo) {
-                        Log.e("MainActivity", "mediaInfo: " + mediaInfo.name);
+                        Log.e("MainActivity", "mediaInfo: " + mediaInfo.path);
                     }
                 });
             }

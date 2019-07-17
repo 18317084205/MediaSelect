@@ -2,6 +2,8 @@ package com.liang.bean;
 
 
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 
 import com.liang.loader.FolderCursorLoader;
@@ -9,7 +11,7 @@ import com.liang.loader.FolderCursorLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MediaFolder {
+public class MediaFolder implements Parcelable {
     public final long id;
     public final String path;
     public final String name;
@@ -30,10 +32,44 @@ public class MediaFolder {
         this.count = count;
     }
 
+    protected MediaFolder(Parcel in) {
+        id = in.readLong();
+        path = in.readString();
+        name = in.readString();
+        count = in.readLong();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(path);
+        dest.writeString(name);
+        dest.writeLong(count);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<MediaFolder> CREATOR = new Creator<MediaFolder>() {
+        @Override
+        public MediaFolder createFromParcel(Parcel in) {
+            return new MediaFolder(in);
+        }
+
+        @Override
+        public MediaFolder[] newArray(int size) {
+            return new MediaFolder[size];
+        }
+    };
+
     public static List<MediaFolder> ofList(Cursor cursor) {
         List<MediaFolder> mediaFolders = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            mediaFolders.add(new MediaFolder(cursor));
+        if (cursor.moveToFirst()) {
+            do {
+                mediaFolders.add(new MediaFolder(cursor));
+            } while (cursor.moveToNext());
         }
         return mediaFolders;
     }
